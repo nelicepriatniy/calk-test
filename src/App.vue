@@ -25,11 +25,9 @@
 
     <button type="submit">Submit</button>
 
-    <div class="mess" v-if="formSubmit.state">
-      <div v-if="formSubmit.sucses.state">
-        {{ formSubmit.sucses.message }} {{ formSubmit.result }}
-      </div>
-      <div v-if="formSubmit.error.state">{{ formSubmit.error.message }}</div>
+    <div class="mess" v-if="formData.state">
+      <div v-if="formData.sucses.state">{{ formData.sucses.message }} {{ formData.result }}</div>
+      <div v-if="formData.error.state">{{ formData.error.message }}</div>
     </div>
   </form>
 </template>
@@ -38,7 +36,7 @@
 export default {
   data() {
     return {
-      formSubmit: {
+      formData: {
         result: '',
         state: false,
         sucses: {
@@ -83,6 +81,7 @@ export default {
           value: '',
           isReqire: true,
           isRed: false,
+          startValue: 5,
         },
         4: {
           name: 'sel2',
@@ -105,6 +104,7 @@ export default {
           value: '',
           isReqire: true,
           isRed: false,
+          startValue: 8,
         },
       },
     }
@@ -133,9 +133,9 @@ export default {
           (inp.type === 'number' && (val > inp.max || val < inp.min))
         ) {
           inp.isRed = true
-          this.formSubmit.state = true
-          this.formSubmit.error.state = true
-          this.formSubmit.sucses.state = false
+          this.formData.state = true
+          this.formData.error.state = true
+          this.formData.sucses.state = false
           return
         } else {
           inp.isRed = false
@@ -153,20 +153,20 @@ export default {
       try {
         calcResult = this.calculateExpression(tokens)
       } catch (e) {
-        this.formSubmit.state = true
-        this.formSubmit.error.state = true
-        this.formSubmit.sucses.state = false
-        this.formSubmit.error.message = e.message
+        this.formData.state = true
+        this.formData.error.state = true
+        this.formData.sucses.state = false
+        this.formData.error.message = e.message
         return
       }
 
-      this.formSubmit.state = true
-      this.formSubmit.error.state = false
-      this.formSubmit.sucses.state = true
+      this.formData.state = true
+      this.formData.error.state = false
+      this.formData.sucses.state = true
 
       console.log('data:', result)
       console.log('=:', calcResult)
-      this.formSubmit.result = calcResult
+      this.formData.result = calcResult
     },
     calculateExpression(tokens) {
       let stack = []
